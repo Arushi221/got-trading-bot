@@ -3,178 +3,60 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Westeros Trading Bot - Game of Thrones Trading Platform</title>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
-    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js"></script>
+    <title>Finance Girl Trading Bot</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Pacifico&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
 <body>
     <div class="container">
-        <!-- Header -->
-        <header class="header">
-            <div class="header-content">
-                <h1><i class="fas fa-crown"></i> Westeros Trading Bot</h1>
-                <p class="subtitle">"When you play the game of thrones, you win or you lose. But when you play the game of trading, you win or you win more."</p>
-            </div>
+        <header>
+            <h1 class="brand">💸 Finance Girl Trading Bot</h1>
+            <p class="subtitle">Trade NVDA, AMZN, and AAPL with style!</p>
         </header>
-
-        <!-- Navigation -->
-        <nav class="nav-tabs">
-            <button class="nav-tab active" data-tab="dashboard">
-                <i class="fas fa-chart-line"></i> Dashboard
-            </button>
-            <button class="nav-tab" data-tab="trading">
-                <i class="fas fa-coins"></i> Trading
-            </button>
-            <button class="nav-tab" data-tab="portfolio">
-                <i class="fas fa-shield-alt"></i> Portfolio
-            </button>
-            <button class="nav-tab" data-tab="signals">
-                <i class="fas fa-fire"></i> Signals
-            </button>
+        <nav class="tabs">
+            <button class="tab active" data-tab="dashboard">Dashboard</button>
+            <button class="tab" data-tab="trade">Trade</button>
+            <button class="tab" data-tab="portfolio">Portfolio</button>
+            <button class="tab" data-tab="signals">Signals</button>
         </nav>
-
-        <!-- Main Content -->
-        <main class="main-content">
-            <!-- Dashboard Tab -->
-            <div id="dashboard" class="tab-content active">
-                <div class="dashboard-grid">
-                    <div class="dashboard-card">
-                        <h3><i class="fas fa-coins"></i> Your Gold</h3>
-                        <div class="gold-amount" id="user-gold">10,000</div>
-                        <p class="gold-label">Dragons</p>
-                    </div>
-                    
-                    <div class="dashboard-card">
-                        <h3><i class="fas fa-chart-line"></i> Total Value</h3>
-                        <div class="total-value" id="total-value">10,000</div>
-                        <p class="value-label">Dragons</p>
-                    </div>
-                    
-                    <div class="dashboard-card">
-                        <h3><i class="fas fa-trophy"></i> Today's P&L</h3>
-                        <div class="pnl" id="today-pnl">0</div>
-                        <p class="pnl-label">Dragons</p>
-                    </div>
-                </div>
-
-                <div class="houses-grid" id="houses-grid">
-                    <!-- Houses will be populated here -->
-                </div>
-            </div>
-
-            <!-- Trading Tab -->
-            <div id="trading" class="tab-content">
-                <div class="trading-container">
-                    <div class="trading-form">
-                        <h3><i class="fas fa-sword"></i> Execute Trade</h3>
-                        <form id="trade-form">
-                            <div class="form-group">
-                                <label for="house-select">Choose House:</label>
-                                <select id="house-select" required>
-                                    <option value="">Select a House</option>
-                                    <option value="STARK">House Stark</option>
-                                    <option value="LANNISTER">House Lannister</option>
-                                    <option value="TARGARYEN">House Targaryen</option>
-                                    <option value="BARATHEON">House Baratheon</option>
-                                    <option value="TYRELL">House Tyrell</option>
-                                    <option value="GREYJOY">House Greyjoy</option>
-                                </select>
-                            </div>
-                            
-                            <div class="form-group">
-                                <label for="action-select">Action:</label>
-                                <select id="action-select" required>
-                                    <option value="">Buy or Sell</option>
-                                    <option value="buy">Buy</option>
-                                    <option value="sell">Sell</option>
-                                </select>
-                            </div>
-                            
-                            <div class="form-group">
-                                <label for="quantity-input">Quantity:</label>
-                                <input type="number" id="quantity-input" min="1" value="1" required>
-                            </div>
-                            
-                            <div class="form-group">
-                                <label>Current Price:</label>
-                                <div id="current-price">Select a house</div>
-                            </div>
-                            
-                            <div class="form-group">
-                                <label>Total Cost:</label>
-                                <div id="total-cost">0</div>
-                            </div>
-                            
-                            <button type="submit" class="trade-btn">
-                                <i class="fas fa-sword"></i> Execute Trade
-                            </button>
-                        </form>
-                    </div>
-                    
-                    <div class="trading-info">
-                        <h3><i class="fas fa-info-circle"></i> Trading Info</h3>
-                        <div id="trading-info-content">
-                            <p>Select a house to see current trading information.</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Portfolio Tab -->
-            <div id="portfolio" class="tab-content">
-                <div class="portfolio-container">
-                    <div class="portfolio-summary">
-                        <h3><i class="fas fa-shield-alt"></i> Portfolio Summary</h3>
-                        <div class="portfolio-stats">
-                            <div class="stat">
-                                <span class="stat-label">Total Gold:</span>
-                                <span class="stat-value" id="portfolio-gold">10,000</span>
-                            </div>
-                            <div class="stat">
-                                <span class="stat-label">Holdings Value:</span>
-                                <span class="stat-value" id="holdings-value">0</span>
-                            </div>
-                            <div class="stat">
-                                <span class="stat-label">Total Value:</span>
-                                <span class="stat-value" id="portfolio-total">10,000</span>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="holdings-list">
-                        <h3><i class="fas fa-list"></i> Your Holdings</h3>
-                        <div id="holdings-container">
-                            <p>No holdings yet. Start trading to build your portfolio!</p>
-                        </div>
-                    </div>
-                    
-                    <div class="transaction-history">
-                        <h3><i class="fas fa-history"></i> Transaction History</h3>
-                        <div id="transactions-container">
-                            <p>No transactions yet.</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Signals Tab -->
-            <div id="signals" class="tab-content">
-                <div class="signals-container">
-                    <h3><i class="fas fa-fire"></i> Trading Signals</h3>
-                    <div id="signals-list">
-                        <p>Loading signals...</p>
-                    </div>
-                </div>
-            </div>
+        <main>
+            <section id="dashboard" class="tab-content active">
+                <h2>Market Prices</h2>
+                <div id="prices" class="card-grid"></div>
+            </section>
+            <section id="trade" class="tab-content">
+                <h2>Make a Trade</h2>
+                <form id="trade-form" class="trade-form card">
+                    <label for="symbol">Stock</label>
+                    <select id="symbol" required>
+                        {% for k, v in stocks.items() %}
+                        <option value="{{k}}">{{v.name}} ({{k}})</option>
+                        {% endfor %}
+                    </select>
+                    <label for="action">Action</label>
+                    <select id="action" required>
+                        <option value="buy">Buy</option>
+                        <option value="sell">Sell</option>
+                    </select>
+                    <label for="quantity">Quantity</label>
+                    <input type="number" id="quantity" min="1" value="1" required>
+                    <button type="submit" class="trade-btn">Trade</button>
+                    <div id="trade-message"></div>
+                </form>
+            </section>
+            <section id="portfolio" class="tab-content">
+                <h2>Your Portfolio</h2>
+                <div id="portfolio-summary" class="card"></div>
+                <h3>Trade History</h3>
+                <div id="history" class="card"></div>
+            </section>
+            <section id="signals" class="tab-content">
+                <h2>Trading Signals</h2>
+                <div id="signals-list" class="card-grid"></div>
+            </section>
         </main>
     </div>
-
-    <!-- Notification Toast -->
     <div id="toast" class="toast"></div>
-
     <script src="{{ url_for('static', filename='js/app.js') }}"></script>
 </body>
 </html> 
