@@ -3,29 +3,58 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Finance Girl Trading Bot</title>
+    <title>Day Trading Bot</title>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Pacifico&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
 <body>
     <div class="container">
         <header>
-            <h1 class="brand">💸 Finance Girl Trading Bot</h1>
-            <p class="subtitle">Trade NVDA, AMZN, and AAPL with style!</p>
+            <h1 class="brand">🚀 Day Trading Bot</h1>
+            <p class="subtitle">Advanced day trading with multiple strategies!</p>
         </header>
+        
+        <!-- Bot Status Bar -->
+        <div id="bot-status" class="bot-status">
+            <div class="status-indicator">
+                <span id="bot-status-text">Loading...</span>
+                <button id="toggle-bot" class="toggle-btn">Toggle Bot</button>
+            </div>
+            <div class="status-details">
+                <span id="vix-display">VIX: --</span>
+                <span id="check-interval">Check: 1min</span>
+            </div>
+        </div>
+        
         <nav class="tabs">
             <button class="tab active" data-tab="dashboard">Dashboard</button>
+            <button class="tab" data-tab="signals">Day Trading Signals</button>
+            <button class="tab" data-tab="strategies">Strategies</button>
             <button class="tab" data-tab="trade">Trade</button>
             <button class="tab" data-tab="portfolio">Portfolio</button>
-            <button class="tab" data-tab="signals">Signals</button>
         </nav>
+        
         <main>
             <section id="dashboard" class="tab-content active">
-                <h2>Market Prices</h2>
+                <h2>Market Overview</h2>
                 <div id="prices" class="card-grid"></div>
             </section>
+            
+            <section id="signals" class="tab-content">
+                <h2>Day Trading Signals</h2>
+                <div class="signals-header">
+                    <p>Real-time signals based on multiple day trading strategies</p>
+                </div>
+                <div id="signals-list" class="signals-grid"></div>
+            </section>
+            
+            <section id="strategies" class="tab-content">
+                <h2>Trading Strategies</h2>
+                <div id="strategies-list" class="strategies-grid"></div>
+            </section>
+            
             <section id="trade" class="tab-content">
-                <h2>Make a Trade</h2>
+                <h2>Manual Trade</h2>
                 <form id="trade-form" class="trade-form card">
                     <label for="symbol">Stock</label>
                     <select id="symbol" required>
@@ -40,19 +69,16 @@
                     </select>
                     <label for="quantity">Quantity</label>
                     <input type="number" id="quantity" min="1" value="1" required>
-                    <button type="submit" class="trade-btn">Trade</button>
+                    <button type="submit" class="trade-btn">Execute Trade</button>
                     <div id="trade-message"></div>
                 </form>
             </section>
+            
             <section id="portfolio" class="tab-content">
                 <h2>Your Portfolio</h2>
                 <div id="portfolio-summary" class="card"></div>
                 <h3>Trade History</h3>
                 <div id="history" class="card"></div>
-            </section>
-            <section id="signals" class="tab-content">
-                <h2>Trading Signals</h2>
-                <div id="signals-list" class="card-grid"></div>
             </section>
         </main>
     </div>
