@@ -27,8 +27,20 @@ async function loadBotStatus() {
         const vixDisplay = document.getElementById('vix-display');
         const checkInterval = document.getElementById('check-interval');
         const toggleBtn = document.getElementById('toggle-bot');
+        const botStatusBar = document.getElementById('bot-status');
         
-        statusText.textContent = data.enabled ? '🟢 Bot Active' : '🔴 Bot Inactive';
+        // Show detailed status
+        if (data.enabled && data.running) {
+            statusText.textContent = '🟢 Bot Active & Running';
+            botStatusBar.classList.remove('inactive');
+        } else if (data.enabled && !data.running) {
+            statusText.textContent = '🟡 Bot Enabled (Starting...)';
+            botStatusBar.classList.remove('inactive');
+        } else {
+            statusText.textContent = '🔴 Bot Inactive';
+            botStatusBar.classList.add('inactive');
+        }
+        
         vixDisplay.textContent = `VIX: ${data.vix ? data.vix.toFixed(2) : '--'}`;
         checkInterval.textContent = `Check: ${Math.floor(data.check_interval / 60)}min`;
         toggleBtn.textContent = data.enabled ? 'Stop Bot' : 'Start Bot';

@@ -71,6 +71,29 @@ header {
     justify-content: space-between;
     align-items: center;
     box-shadow: 0 4px 16px rgba(102, 126, 234, 0.2);
+    position: relative;
+    overflow: hidden;
+}
+
+.bot-status::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+    animation: bot-active 2s infinite;
+    pointer-events: none;
+}
+
+.bot-status.inactive::before {
+    animation: none;
+}
+
+@keyframes bot-active {
+    0% { left: -100%; }
+    100% { left: 100%; }
 }
 
 .status-indicator {

@@ -262,7 +262,7 @@ def execute_auto_trade(symbol, price, reason):
         'reason': reason
     })
     
-    print(f"Auto-trade executed: BUY {DAY_TRADE_QUANTITY} {symbol} @ ${round(price, 2)} - {reason}")
+    print(f"🤖 AUTO-TRADE EXECUTED: BUY {DAY_TRADE_QUANTITY} {symbol} @ ${round(price, 2)} - {reason}")
     return True
 
 
@@ -301,7 +301,8 @@ def check_day_trading_signals():
 
 def run_day_trading_bot():
     """Background thread for running day trading bot"""
-    while AUTO_TRADE_ENABLED:
+    global bot_running
+    while bot_running and AUTO_TRADE_ENABLED:
         try:
             check_day_trading_signals()
             # Check every minute for day trading
@@ -311,10 +312,28 @@ def run_day_trading_bot():
             time.sleep(30)  # Wait 30 seconds on error
 
 
-# Start day trading bot thread
+# Global variable to control the bot thread
+day_trading_thread = None
+bot_running = False
+
+def start_bot_thread():
+    """Start the day trading bot thread"""
+    global day_trading_thread, bot_running
+    if not bot_running:
+        day_trading_thread = threading.Thread(target=run_day_trading_bot, daemon=True)
+        day_trading_thread.start()
+        bot_running = True
+        print("Day trading bot started")
+
+def stop_bot_thread():
+    """Stop the day trading bot thread"""
+    global bot_running
+    bot_running = False
+    print("Day trading bot stopped")
+
+# Start day trading bot thread if enabled
 if AUTO_TRADE_ENABLED:
-    day_trading_thread = threading.Thread(target=run_day_trading_bot, daemon=True)
-    day_trading_thread.start()
+    start_bot_thread()
 
 
 def get_stock_data(symbol, period='1d'):
@@ -448,9 +467,11 @@ def api_portfolio():
 @app.route('/api/bot-status')
 def api_bot_status():
     """Get day trading bot status"""
+    global bot_running
     vix_value = get_vix_data()
     return jsonify({
         'enabled': AUTO_TRADE_ENABLED,
+        'running': bot_running,
         'vix': round(vix_value, 2) if vix_value else None,
         'check_interval': CHECK_INTERVAL,
         'day_trade_quantity': DAY_TRADE_QUANTITY,
@@ -466,9 +487,11 @@ def api_toggle_bot():
     AUTO_TRADE_ENABLED = data.get('enabled', True)
     
     if AUTO_TRADE_ENABLED:
-        # Restart bot thread if needed
-        day_trading_thread = threading.Thread(target=run_day_trading_bot, daemon=True)
-        day_trading_thread.start()
+        # Start bot thread
+        start_bot_thread()
+    else:
+        # Stop bot thread
+        stop_bot_thread()
     
     return jsonify({
         'success': True,
