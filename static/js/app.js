@@ -26,6 +26,7 @@ async function loadBotStatus() {
         const statusText = document.getElementById('bot-status-text');
         const vixDisplay = document.getElementById('vix-display');
         const checkInterval = document.getElementById('check-interval');
+        const marketStatus = document.getElementById('market-status');
         const toggleBtn = document.getElementById('toggle-bot');
         const botStatusBar = document.getElementById('bot-status');
         
@@ -39,6 +40,16 @@ async function loadBotStatus() {
         } else {
             statusText.textContent = '🔴 Bot Inactive';
             botStatusBar.classList.add('inactive');
+        }
+        
+        // Show market status
+        if (data.market_status) {
+            const market = data.market_status;
+            if (market.is_open) {
+                marketStatus.textContent = `🟢 Market Open (${market.current_time})`;
+            } else {
+                marketStatus.textContent = `🔴 Market Closed - ${market.status}`;
+            }
         }
         
         vixDisplay.textContent = `VIX: ${data.vix ? data.vix.toFixed(2) : '--'}`;

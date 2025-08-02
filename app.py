@@ -1,12 +1,13 @@
 from flask import Flask, render_template, request, jsonify
 import yfinance as yf
-from datetime import datetime
-import time
+from datetime import datetime, time
+import time as time_module
 import threading
 import pandas as pd
 import numpy as np
 import json
 import os
+import pytz
 
 app = Flask(__name__)
 
@@ -56,6 +57,89 @@ portfolio = load_portfolio()
 AUTO_TRADE_ENABLED = True
 DAY_TRADE_QUANTITY = 1  # Number of shares for day trading
 CHECK_INTERVAL = 60  # Check signals every 1 minute for day trading
+
+# Market hours settings
+MARKET_OPEN = time(9, 30)  # 9:30 AM EST
+MARKET_CLOSE = time(16, 0)  # 4:00 PM EST
+
+def is_market_open():
+    """Check if US stock market is currently open"""
+    try:
+        # Get current time in US Eastern timezone
+        eastern = pytz.timezone('US/Eastern')
+        now = datetime.now(eastern)
+        
+        # Check if it's a weekday (Monday = 0, Sunday = 6)
+        if now.weekday() >= 5:  # Saturday or Sunday
+            return False, "Market closed (Weekend)"
+        
+        # Check if it's within market hours
+        current_time = now.time()
+        if MARKET_OPEN <= current_time <= MARKET_CLOSE:
+            return True, "Market open"
+        elif current_time < MARKET_OPEN:
+            return False, f"Market opens at {MARKET_OPEN.strftime('%I:%M %p')} EST"
+        else:
+            return False, f"Market closed at {MARKET_CLOSE.strftime('%I:%M %p')} EST"
+            
+    except Exception as e:
+        print(f"Error checking market hours: {e}")
+        return False, "Error checking market status"
+
+def get_market_status():
+    """Get detailed market status information"""
+    is_open, status = is_market_open()
+    eastern = pytz.timezone('US/Eastern')
+    now = datetime.now(eastern)
+    
+    return {
+        'is_open': is_open,
+        'status': status,
+        'current_time': now.strftime('%I:%M %p EST'),
+        'current_date': now.strftime('%A, %B %d, %Y'),
+        'next_open': get_next_market_open(),
+        'next_close': get_next_market_close()
+    }
+
+def get_next_market_open():
+    """Get the next market open time"""
+    eastern = pytz.timezone('US/Eastern')
+    now = datetime.now(eastern)
+    
+    if now.weekday() >= 5:  # Weekend
+        days_until_monday = 7 - now.weekday()
+        next_monday = now + pd.Timedelta(days=days_until_monday)
+        return next_monday.replace(hour=9, minute=30, second=0, microsecond=0).strftime('%I:%M %p EST, %A')
+    elif now.time() < MARKET_OPEN:  # Before market opens today
+        return now.replace(hour=9, minute=30, second=0, microsecond=0).strftime('%I:%M %p EST, Today')
+    else:  # After market closes today
+        tomorrow = now + pd.Timedelta(days=1)
+        if tomorrow.weekday() < 5:  # Next weekday
+            return tomorrow.replace(hour=9, minute=30, second=0, microsecond=0).strftime('%I:%M %p EST, %A')
+        else:  # Next Monday
+            days_until_monday = 7 - tomorrow.weekday()
+            next_monday = tomorrow + pd.Timedelta(days=days_until_monday)
+            return next_monday.replace(hour=9, minute=30, second=0, microsecond=0).strftime('%I:%M %p EST, %A')
+
+def get_next_market_close():
+    """Get the next market close time"""
+    eastern = pytz.timezone('US/Eastern')
+    now = datetime.now(eastern)
+    
+    if now.weekday() >= 5:  # Weekend
+        days_until_monday = 7 - now.weekday()
+        next_monday = now + pd.Timedelta(days=days_until_monday)
+        return next_monday.replace(hour=16, minute=0, second=0, microsecond=0).strftime('%I:%M %p EST, %A')
+    elif now.time() < MARKET_CLOSE:  # Before market closes today
+        return now.replace(hour=16, minute=0, second=0, microsecond=0).strftime('%I:%M %p EST, Today')
+    else:  # After market closes today
+        tomorrow = now + pd.Timedelta(days=1)
+        if tomorrow.weekday() < 5:  # Next weekday
+            return tomorrow.replace(hour=16, minute=0, second=0, microsecond=0).strftime('%I:%M %p EST, %A')
+        else:  # Next Monday
+            days_until_monday = 7 - tomorrow.weekday()
+            next_monday = tomorrow + pd.Timedelta(days=days_until_monday)
+            return next_monday.replace(hour=16, minute=0, second=0, microsecond=0).strftime('%I:%M %p EST, %A')
 
 # Day Trading Strategies
 STRATEGIES = {
@@ -279,6 +363,12 @@ def execute_auto_trade(symbol, price, reason, action='BUY'):
     """Execute an automatic trade and record it"""
     global portfolio
     
+    # Check if market is open before executing trades
+    market_open, market_status = is_market_open()
+    if not market_open:
+        print(f"🤖 AUTO-TRADE SKIPPED: Market is closed - {market_status}")
+        return False
+    
     if action == 'BUY':
         total_cost = price * DAY_TRADE_QUANTITY
         if portfolio['cash'] < total_cost:
@@ -317,6 +407,12 @@ def execute_auto_trade(symbol, price, reason, action='BUY'):
 def check_day_trading_signals():
     """Check for day trading signals and execute trades"""
     if not AUTO_TRADE_ENABLED:
+        return
+    
+    # Check if market is open
+    market_open, market_status = is_market_open()
+    if not market_open:
+        print(f"🤖 Bot monitoring signals but market is closed: {market_status}")
         return
     
     try:
@@ -358,10 +454,10 @@ def run_day_trading_bot():
         try:
             check_day_trading_signals()
             # Check every minute for day trading
-            time.sleep(CHECK_INTERVAL)
+            time_module.sleep(CHECK_INTERVAL)
         except Exception as e:
             print(f"Error in day trading bot thread: {e}")
-            time.sleep(30)  # Wait 30 seconds on error
+            time_module.sleep(30)  # Wait 30 seconds on error
 
 
 # Global variable to control the bot thread
@@ -500,6 +596,12 @@ def api_strategies():
     return jsonify(STRATEGIES)
 
 
+@app.route('/api/market-status')
+def api_market_status():
+    """Get current market status"""
+    return jsonify(get_market_status())
+
+
 @app.route('/api/portfolio')
 def api_portfolio():
     prices = get_latest_prices()
@@ -521,13 +623,15 @@ def api_bot_status():
     """Get day trading bot status"""
     global bot_running
     vix_value = get_vix_data()
+    market_status = get_market_status()
     return jsonify({
         'enabled': AUTO_TRADE_ENABLED,
         'running': bot_running,
         'vix': round(vix_value, 2) if vix_value else None,
         'check_interval': CHECK_INTERVAL,
         'day_trade_quantity': DAY_TRADE_QUANTITY,
-        'strategies': list(STRATEGIES.keys())
+        'strategies': list(STRATEGIES.keys()),
+        'market_status': market_status
     })
 
 
