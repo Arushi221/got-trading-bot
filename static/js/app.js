@@ -153,7 +153,12 @@ async function loadPortfolio() {
         } else {
             history.innerHTML = data.history.slice(-10).reverse().map(tr => {
                 const time = new Date(tr.time).toLocaleString();
-                const actionClass = tr.action === 'BUY' ? 'buy' : tr.action === 'SELL' ? 'sell' : 'auto';
+                let actionClass = 'buy';
+                if (tr.action === 'SELL' || tr.action === 'AUTO_SELL') {
+                    actionClass = 'sell';
+                } else if (tr.action === 'AUTO_BUY') {
+                    actionClass = 'auto';
+                }
                 return `<div class="history-item ${actionClass}">
                     <span class="time">${time}</span> - 
                     <span class="action"><b>${tr.action}</b></span> 
@@ -261,6 +266,13 @@ function startAutoRefresh() {
     
     // Refresh bot status every 30 seconds
     setInterval(loadBotStatus, 30000);
+    
+    // Refresh portfolio every 30 seconds to show bot trades
+    setInterval(() => {
+        if (document.querySelector('#portfolio.active')) {
+            loadPortfolio();
+        }
+    }, 30000);
 }
 
 // Initial load

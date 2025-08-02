@@ -5,6 +5,8 @@ import time
 import threading
 import pandas as pd
 import numpy as np
+import json
+import os
 
 app = Flask(__name__)
 
@@ -14,12 +16,41 @@ STOCKS = {
     'AAPL': {'symbol': 'AAPL', 'name': 'Apple'}
 }
 
-# User's portfolio
-portfolio = {
-    'cash': 10000.0,
-    'holdings': {s: 0 for s in STOCKS},
-    'history': []
-}
+# Portfolio data file
+PORTFOLIO_FILE = 'portfolio_data.json'
+
+def load_portfolio():
+    """Load portfolio data from JSON file"""
+    if os.path.exists(PORTFOLIO_FILE):
+        try:
+            with open(PORTFOLIO_FILE, 'r') as f:
+                data = json.load(f)
+                return {
+                    'cash': data.get('cash', 10000.0),
+                    'holdings': data.get('holdings', {s: 0 for s in STOCKS}),
+                    'history': data.get('history', [])
+                }
+        except Exception as e:
+            print(f"Error loading portfolio: {e}")
+    
+    # Default portfolio if file doesn't exist
+    return {
+        'cash': 10000.0,
+        'holdings': {s: 0 for s in STOCKS},
+        'history': []
+    }
+
+def save_portfolio():
+    """Save portfolio data to JSON file"""
+    try:
+        with open(PORTFOLIO_FILE, 'w') as f:
+            json.dump(portfolio, f, indent=2)
+        print(f"Portfolio saved to {PORTFOLIO_FILE}")
+    except Exception as e:
+        print(f"Error saving portfolio: {e}")
+
+# Load portfolio on startup
+portfolio = load_portfolio()
 
 # Day Trading Settings
 AUTO_TRADE_ENABLED = True
@@ -244,25 +275,42 @@ def get_vix_data():
         return None
 
 
-def execute_auto_trade(symbol, price, reason):
+def execute_auto_trade(symbol, price, reason, action='BUY'):
     """Execute an automatic trade and record it"""
-    if portfolio['cash'] < price * DAY_TRADE_QUANTITY:
-        print(f"Insufficient cash for auto-trade: {symbol}")
-        return False
+    global portfolio
     
-    portfolio['cash'] -= price * DAY_TRADE_QUANTITY
-    portfolio['holdings'][symbol] += DAY_TRADE_QUANTITY
+    if action == 'BUY':
+        total_cost = price * DAY_TRADE_QUANTITY
+        if portfolio['cash'] < total_cost:
+            print(f"Insufficient cash for auto-trade: {symbol} - Need ${total_cost:.2f}, have ${portfolio['cash']:.2f}")
+            return False
+        
+        portfolio['cash'] -= total_cost
+        portfolio['holdings'][symbol] += DAY_TRADE_QUANTITY
+        trade_action = 'AUTO_BUY'
+    else:  # SELL
+        if portfolio['holdings'][symbol] < DAY_TRADE_QUANTITY:
+            print(f"Insufficient shares for auto-trade: {symbol} - Need {DAY_TRADE_QUANTITY}, have {portfolio['holdings'][symbol]}")
+            return False
+        
+        proceeds = price * DAY_TRADE_QUANTITY
+        portfolio['cash'] += proceeds
+        portfolio['holdings'][symbol] -= DAY_TRADE_QUANTITY
+        trade_action = 'AUTO_SELL'
     
     portfolio['history'].append({
         'time': datetime.now().isoformat(),
         'symbol': symbol,
-        'action': 'AUTO_BUY',
+        'action': trade_action,
         'qty': DAY_TRADE_QUANTITY,
         'price': round(price, 2),
         'reason': reason
     })
     
-    print(f"🤖 AUTO-TRADE EXECUTED: BUY {DAY_TRADE_QUANTITY} {symbol} @ ${round(price, 2)} - {reason}")
+    # Save portfolio after each trade
+    save_portfolio()
+    
+    print(f"🤖 AUTO-TRADE EXECUTED: {trade_action} {DAY_TRADE_QUANTITY} {symbol} @ ${round(price, 2)} - {reason}")
     return True
 
 
@@ -289,11 +337,15 @@ def check_day_trading_signals():
             
             # Priority: Breakout > Momentum > VWAP > Mean Reversion > Scalping
             if breakout_signal['signal'] == 'BUY':
-                execute_auto_trade(key, price, f"Breakout: {breakout_signal['reason']}")
+                execute_auto_trade(key, price, f"Breakout: {breakout_signal['reason']}", 'BUY')
             elif momentum_signal['signal'] == 'BUY':
-                execute_auto_trade(key, price, f"Momentum: {momentum_signal['reason']}")
+                execute_auto_trade(key, price, f"Momentum: {momentum_signal['reason']}", 'BUY')
             elif vwap_signal['signal'] == 'BUY':
-                execute_auto_trade(key, price, f"VWAP: {vwap_signal['reason']}")
+                execute_auto_trade(key, price, f"VWAP: {vwap_signal['reason']}", 'BUY')
+            elif mean_reversion_signal['signal'] == 'SELL':
+                execute_auto_trade(key, price, f"Mean Reversion: {mean_reversion_signal['reason']}", 'SELL')
+            elif scalping_signal['signal'] == 'BUY':
+                execute_auto_trade(key, price, f"Scalping: {scalping_signal['reason']}", 'BUY')
                 
     except Exception as e:
         print(f"Error in day trading signal check: {e}")
@@ -540,6 +592,9 @@ def api_trade():
         'qty': quantity,
         'price': round(price, 2)
     })
+
+    # Save portfolio after manual trade
+    save_portfolio()
 
     return jsonify({
         'success': True,
