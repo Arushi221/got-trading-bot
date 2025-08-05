@@ -439,7 +439,26 @@ def check_day_trading_signals():
             
             print(f"🤖 Analyzing {key}: Breakout={breakout_signal['signal']}, Momentum={momentum_signal['signal']}, VWAP={vwap_signal['signal']}, MeanRev={mean_reversion_signal['signal']}, Scalping={scalping_signal['signal']}")
             
+            # Check for profit-taking opportunities first
+            if portfolio['holdings'][key] > 0:
+                # Calculate average purchase price from history
+                buy_trades = [t for t in portfolio['history'] if t['symbol'] == key and t['action'] in ['BUY', 'AUTO_BUY']]
+                if buy_trades:
+                    avg_buy_price = sum(t['price'] for t in buy_trades) / len(buy_trades)
+                    profit_percent = ((price - avg_buy_price) / avg_buy_price) * 100
+                    
+                    # Auto-sell if profit > 2% or loss > -1%
+                    if profit_percent >= 2.0:
+                        print(f"🤖 PROFIT TAKING: {key} up {profit_percent:.2f}% - selling at ${price:.2f}")
+                        execute_auto_trade(key, price, f"Profit taking: {profit_percent:.2f}% gain", 'SELL')
+                        continue
+                    elif profit_percent <= -1.0:
+                        print(f"🤖 STOP LOSS: {key} down {profit_percent:.2f}% - selling at ${price:.2f}")
+                        execute_auto_trade(key, price, f"Stop loss: {profit_percent:.2f}% loss", 'SELL')
+                        continue
+            
             # Priority: Breakout > Momentum > VWAP > Mean Reversion > Scalping
+            # BUY signals
             if breakout_signal['signal'] == 'BUY':
                 print(f"🤖 EXECUTING BREAKOUT BUY for {key}")
                 execute_auto_trade(key, price, f"Breakout: {breakout_signal['reason']}", 'BUY')
@@ -449,14 +468,27 @@ def check_day_trading_signals():
             elif vwap_signal['signal'] == 'BUY':
                 print(f"🤖 EXECUTING VWAP BUY for {key}")
                 execute_auto_trade(key, price, f"VWAP: {vwap_signal['reason']}", 'BUY')
-            elif mean_reversion_signal['signal'] == 'SELL':
-                print(f"🤖 EXECUTING MEAN REVERSION SELL for {key}")
-                execute_auto_trade(key, price, f"Mean Reversion: {mean_reversion_signal['reason']}", 'SELL')
             elif scalping_signal['signal'] == 'BUY':
                 print(f"🤖 EXECUTING SCALPING BUY for {key}")
                 execute_auto_trade(key, price, f"Scalping: {scalping_signal['reason']}", 'BUY')
+            # SELL signals
+            elif breakout_signal['signal'] == 'SELL':
+                print(f"🤖 EXECUTING BREAKOUT SELL for {key}")
+                execute_auto_trade(key, price, f"Breakout: {breakout_signal['reason']}", 'SELL')
+            elif momentum_signal['signal'] == 'SELL':
+                print(f"🤖 EXECUTING MOMENTUM SELL for {key}")
+                execute_auto_trade(key, price, f"Momentum: {momentum_signal['reason']}", 'SELL')
+            elif vwap_signal['signal'] == 'SELL':
+                print(f"🤖 EXECUTING VWAP SELL for {key}")
+                execute_auto_trade(key, price, f"VWAP: {vwap_signal['reason']}", 'SELL')
+            elif mean_reversion_signal['signal'] == 'SELL':
+                print(f"🤖 EXECUTING MEAN REVERSION SELL for {key}")
+                execute_auto_trade(key, price, f"Mean Reversion: {mean_reversion_signal['reason']}", 'SELL')
+            elif scalping_signal['signal'] == 'SELL':
+                print(f"🤖 EXECUTING SCALPING SELL for {key}")
+                execute_auto_trade(key, price, f"Scalping: {scalping_signal['reason']}", 'SELL')
             else:
-                print(f"🤖 No strong signals for {key} - all strategies showing WAIT or no BUY/SELL")
+                print(f"🤖 No strong signals for {key} - all strategies showing WAIT")
                 
     except Exception as e:
         print(f"Error in day trading signal check: {e}")

@@ -1,8 +1,8 @@
 {
-  "cash": 9581.01,
+  "cash": 9187.970006713867,
   "holdings": {
-    "NVDA": 0,
-    "AMZN": 1,
+    "NVDA": 1,
+    "AMZN": 2,
     "AAPL": 1
   },
   "history": [
@@ -19,6 +19,22 @@
       "action": "BUY",
       "qty": 1,
       "price": 204.0
+    },
+    {
+      "time": "2025-08-05T10:35:01.067882",
+      "symbol": "NVDA",
+      "action": "AUTO_BUY",
+      "qty": 1,
+      "price": 178.11,
+      "reason": "VWAP: Price pulled back to VWAP ($178.06)"
+    },
+    {
+      "time": "2025-08-05T10:35:01.299524",
+      "symbol": "AMZN",
+      "action": "AUTO_BUY",
+      "qty": 1,
+      "price": 214.93,
+      "reason": "VWAP: Price pulled back to VWAP ($214.88)"
     }
   ]
 }
