@@ -1,0 +1,24 @@
+{
+  "cash": 9581.01,
+  "holdings": {
+    "NVDA": 0,
+    "AMZN": 1,
+    "AAPL": 1
+  },
+  "history": [
+    {
+      "time": "2025-08-05T10:25:45.459096",
+      "symbol": "AMZN",
+      "action": "BUY",
+      "qty": 1,
+      "price": 214.99
+    },
+    {
+      "time": "2025-08-05T10:26:02.613851",
+      "symbol": "AAPL",
+      "action": "BUY",
+      "qty": 1,
+      "price": 204.0
+    }
+  ]
+}

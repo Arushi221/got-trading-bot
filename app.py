@@ -312,12 +312,16 @@ def analyze_vwap_pullback_strategy(hist):
     current_vwap = vwap.iloc[-1]
     current_ema = ema20.iloc[-1]
     
-    # VWAP pullback signals
+    # VWAP pullback signals - more realistic for day trading
     vwap_distance = abs(current_price - current_vwap) / current_vwap * 100
     
-    if current_price > current_vwap and current_price > current_ema and vwap_distance < 1:
+    # Debug info
+    print(f"VWAP Analysis - Price: ${current_price:.2f}, VWAP: ${current_vwap:.2f}, EMA: ${current_ema:.2f}, Distance: {vwap_distance:.2f}%")
+    
+    # More lenient conditions for day trading
+    if current_price > current_vwap and vwap_distance < 2.0:  # Within 2% of VWAP and above it
         return {'signal': 'BUY', 'reason': f'Price pulled back to VWAP (${current_vwap:.2f})'}
-    elif current_price < current_vwap and current_price < current_ema and vwap_distance < 1:
+    elif current_price < current_vwap and vwap_distance < 2.0:  # Within 2% of VWAP and below it
         return {'signal': 'SELL', 'reason': f'Price pulled back to VWAP (${current_vwap:.2f})'}
     else:
         return {'signal': 'WAIT', 'reason': f'Price ${current_price:.2f} away from VWAP ${current_vwap:.2f}'}
@@ -415,6 +419,8 @@ def check_day_trading_signals():
         print(f"🤖 Bot monitoring signals but market is closed: {market_status}")
         return
     
+    print(f"🤖 Bot checking signals - Market is open: {market_status}")
+    
     try:
         for key, stock in STOCKS.items():
             hist = get_stock_data(stock['symbol'], '1d')
@@ -431,17 +437,26 @@ def check_day_trading_signals():
             # Execute trades based on strong signals
             price = hist['Close'].iloc[-1]
             
+            print(f"🤖 Analyzing {key}: Breakout={breakout_signal['signal']}, Momentum={momentum_signal['signal']}, VWAP={vwap_signal['signal']}, MeanRev={mean_reversion_signal['signal']}, Scalping={scalping_signal['signal']}")
+            
             # Priority: Breakout > Momentum > VWAP > Mean Reversion > Scalping
             if breakout_signal['signal'] == 'BUY':
+                print(f"🤖 EXECUTING BREAKOUT BUY for {key}")
                 execute_auto_trade(key, price, f"Breakout: {breakout_signal['reason']}", 'BUY')
             elif momentum_signal['signal'] == 'BUY':
+                print(f"🤖 EXECUTING MOMENTUM BUY for {key}")
                 execute_auto_trade(key, price, f"Momentum: {momentum_signal['reason']}", 'BUY')
             elif vwap_signal['signal'] == 'BUY':
+                print(f"🤖 EXECUTING VWAP BUY for {key}")
                 execute_auto_trade(key, price, f"VWAP: {vwap_signal['reason']}", 'BUY')
             elif mean_reversion_signal['signal'] == 'SELL':
+                print(f"🤖 EXECUTING MEAN REVERSION SELL for {key}")
                 execute_auto_trade(key, price, f"Mean Reversion: {mean_reversion_signal['reason']}", 'SELL')
             elif scalping_signal['signal'] == 'BUY':
+                print(f"🤖 EXECUTING SCALPING BUY for {key}")
                 execute_auto_trade(key, price, f"Scalping: {scalping_signal['reason']}", 'BUY')
+            else:
+                print(f"🤖 No strong signals for {key} - all strategies showing WAIT or no BUY/SELL")
                 
     except Exception as e:
         print(f"Error in day trading signal check: {e}")
@@ -600,6 +615,23 @@ def api_strategies():
 def api_market_status():
     """Get current market status"""
     return jsonify(get_market_status())
+
+
+@app.route('/api/test-signals')
+def api_test_signals():
+    """Test endpoint to manually check signals and trigger trades"""
+    try:
+        print("🧪 MANUAL SIGNAL TEST TRIGGERED")
+        check_day_trading_signals()
+        return jsonify({
+            'success': True,
+            'message': 'Signal check completed - check console for details'
+        })
+    except Exception as e:
+        return jsonify({
+            'success': False,
+            'error': str(e)
+        })
 
 
 @app.route('/api/portfolio')
