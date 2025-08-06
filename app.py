@@ -12,9 +12,16 @@ import pytz
 app = Flask(__name__)
 
 STOCKS = {
+    'TSLA': {'symbol': 'TSLA', 'name': 'Tesla'},
     'NVDA': {'symbol': 'NVDA', 'name': 'Nvidia'},
-    'AMZN': {'symbol': 'AMZN', 'name': 'Amazon'},
-    'AAPL': {'symbol': 'AAPL', 'name': 'Apple'}
+    'AAPL': {'symbol': 'AAPL', 'name': 'Apple'},
+    'MSFT': {'symbol': 'MSFT', 'name': 'Microsoft'},
+    'GOOGL': {'symbol': 'GOOGL', 'name': 'Alphabet'},
+    'META': {'symbol': 'META', 'name': 'Meta'},
+    'AMD': {'symbol': 'AMD', 'name': 'Advanced Micro Devices'},
+    'PLTR': {'symbol': 'PLTR', 'name': 'Palantir'},
+    'CRWD': {'symbol': 'CRWD', 'name': 'CrowdStrike'},
+    'SNOW': {'symbol': 'SNOW', 'name': 'Snowflake'}
 }
 
 # Portfolio data file
