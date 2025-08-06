@@ -497,14 +497,22 @@ def check_day_trading_signals():
 def run_day_trading_bot():
     """Background thread for running day trading bot"""
     global bot_running
+    print("🤖 Bot thread started - entering main loop")
+    loop_count = 0
+    
     while bot_running and AUTO_TRADE_ENABLED:
         try:
+            loop_count += 1
+            print(f"🤖 Bot loop #{loop_count} - checking signals...")
             check_day_trading_signals()
+            print(f"🤖 Bot loop #{loop_count} - sleeping for {CHECK_INTERVAL} seconds...")
             # Check every minute for day trading
             time_module.sleep(CHECK_INTERVAL)
         except Exception as e:
-            print(f"Error in day trading bot thread: {e}")
+            print(f"🤖 Error in day trading bot thread: {e}")
             time_module.sleep(30)  # Wait 30 seconds on error
+    
+    print("🤖 Bot thread exiting main loop")
 
 
 # Global variable to control the bot thread
@@ -518,16 +526,29 @@ def start_bot_thread():
         day_trading_thread = threading.Thread(target=run_day_trading_bot, daemon=True)
         day_trading_thread.start()
         bot_running = True
-        print("Day trading bot started")
+        print("🤖 Day trading bot thread started successfully")
 
 def stop_bot_thread():
     """Stop the day trading bot thread"""
     global bot_running
     bot_running = False
-    print("Day trading bot stopped")
+    print("🤖 Day trading bot thread stopped")
+
+def check_bot_thread_status():
+    """Check if the bot thread is running"""
+    global bot_running, day_trading_thread
+    if day_trading_thread and day_trading_thread.is_alive():
+        return True
+    elif bot_running:
+        # Thread died but flag is still True, restart it
+        print("🤖 Bot thread died, restarting...")
+        start_bot_thread()
+        return True
+    return False
 
 # Start day trading bot thread if enabled
 if AUTO_TRADE_ENABLED:
+    print("🤖 Initializing day trading bot...")
     start_bot_thread()
 
 
@@ -688,9 +709,14 @@ def api_bot_status():
     global bot_running
     vix_value = get_vix_data()
     market_status = get_market_status()
+    
+    # Check if thread is actually running
+    thread_running = check_bot_thread_status()
+    
     return jsonify({
         'enabled': AUTO_TRADE_ENABLED,
         'running': bot_running,
+        'thread_alive': thread_running,
         'vix': round(vix_value, 2) if vix_value else None,
         'check_interval': CHECK_INTERVAL,
         'day_trade_quantity': DAY_TRADE_QUANTITY,

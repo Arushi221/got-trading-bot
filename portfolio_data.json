@@ -1,9 +1,9 @@
 {
-  "cash": 9187.970006713867,
+  "cash": 7395.759923706055,
   "holdings": {
-    "NVDA": 1,
-    "AMZN": 2,
-    "AAPL": 1
+    "NVDA": 4,
+    "AMZN": 5,
+    "AAPL": 4
   },
   "history": [
     {
@@ -35,6 +35,78 @@
       "qty": 1,
       "price": 214.93,
       "reason": "VWAP: Price pulled back to VWAP ($214.88)"
+    },
+    {
+      "time": "2025-08-05T10:43:42.596422",
+      "symbol": "NVDA",
+      "action": "AUTO_BUY",
+      "qty": 1,
+      "price": 178.17,
+      "reason": "VWAP: Price pulled back to VWAP ($178.06)"
+    },
+    {
+      "time": "2025-08-05T10:43:42.813854",
+      "symbol": "AMZN",
+      "action": "AUTO_BUY",
+      "qty": 1,
+      "price": 215.19,
+      "reason": "VWAP: Price pulled back to VWAP ($214.88)"
+    },
+    {
+      "time": "2025-08-05T10:43:43.027510",
+      "symbol": "NVDA",
+      "action": "AUTO_BUY",
+      "qty": 1,
+      "price": 178.18,
+      "reason": "VWAP: Price pulled back to VWAP ($178.06)"
+    },
+    {
+      "time": "2025-08-05T10:43:43.036201",
+      "symbol": "AAPL",
+      "action": "AUTO_BUY",
+      "qty": 1,
+      "price": 203.93,
+      "reason": "VWAP: Price pulled back to VWAP ($203.85)"
+    },
+    {
+      "time": "2025-08-05T10:43:43.243423",
+      "symbol": "AMZN",
+      "action": "AUTO_BUY",
+      "qty": 1,
+      "price": 215.19,
+      "reason": "VWAP: Price pulled back to VWAP ($214.88)"
+    },
+    {
+      "time": "2025-08-05T10:43:43.458186",
+      "symbol": "AAPL",
+      "action": "AUTO_BUY",
+      "qty": 1,
+      "price": 203.93,
+      "reason": "VWAP: Price pulled back to VWAP ($203.85)"
+    },
+    {
+      "time": "2025-08-05T10:47:55.678954",
+      "symbol": "NVDA",
+      "action": "AUTO_BUY",
+      "qty": 1,
+      "price": 178.3,
+      "reason": "VWAP: Price pulled back to VWAP ($178.06)"
+    },
+    {
+      "time": "2025-08-05T10:47:55.996039",
+      "symbol": "AMZN",
+      "action": "AUTO_BUY",
+      "qty": 1,
+      "price": 215.28,
+      "reason": "VWAP: Price pulled back to VWAP ($214.88)"
+    },
+    {
+      "time": "2025-08-05T10:47:56.604948",
+      "symbol": "AAPL",
+      "action": "AUTO_BUY",
+      "qty": 1,
+      "price": 204.03,
+      "reason": "VWAP: Price pulled back to VWAP ($203.85)"
     }
   ]
 }
