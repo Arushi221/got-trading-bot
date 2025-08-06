@@ -1,9 +1,9 @@
 {
-  "cash": 7395.759923706055,
+  "cash": 37.15828491210959,
   "holdings": {
-    "NVDA": 4,
-    "AMZN": 5,
-    "AAPL": 4
+    "NVDA": 28,
+    "AMZN": 14,
+    "AAPL": 9
   },
   "history": [
     {
@@ -107,6 +107,566 @@
       "qty": 1,
       "price": 204.03,
       "reason": "VWAP: Price pulled back to VWAP ($203.85)"
+    },
+    {
+      "time": "2025-08-06T06:57:33.659711",
+      "symbol": "AAPL",
+      "action": "AUTO_SELL",
+      "qty": 1,
+      "price": 209.76,
+      "reason": "Profit taking: 2.84% gain"
+    },
+    {
+      "time": "2025-08-06T09:01:23.224743",
+      "symbol": "NVDA",
+      "action": "AUTO_BUY",
+      "qty": 1,
+      "price": 179.03,
+      "reason": "VWAP: Price pulled back to VWAP ($177.99)"
+    },
+    {
+      "time": "2025-08-06T09:01:23.509406",
+      "symbol": "AMZN",
+      "action": "AUTO_BUY",
+      "qty": 1,
+      "price": 218.39,
+      "reason": "VWAP: Price pulled back to VWAP ($216.04)"
+    },
+    {
+      "time": "2025-08-06T11:56:59.160026",
+      "symbol": "NVDA",
+      "action": "AUTO_BUY",
+      "qty": 1,
+      "price": 179.01,
+      "reason": "VWAP: Price pulled back to VWAP ($178.18)"
+    },
+    {
+      "time": "2025-08-06T11:56:59.520992",
+      "symbol": "AMZN",
+      "action": "AUTO_SELL",
+      "qty": 1,
+      "price": 221.48,
+      "reason": "Profit taking: 2.70% gain"
+    },
+    {
+      "time": "2025-08-06T11:57:00.092903",
+      "symbol": "AAPL",
+      "action": "AUTO_SELL",
+      "qty": 1,
+      "price": 214.64,
+      "reason": "Profit taking: 5.23% gain"
+    },
+    {
+      "time": "2025-08-06T11:58:00.269558",
+      "symbol": "NVDA",
+      "action": "AUTO_BUY",
+      "qty": 1,
+      "price": 179.04,
+      "reason": "VWAP: Price pulled back to VWAP ($178.19)"
+    },
+    {
+      "time": "2025-08-06T11:58:00.656592",
+      "symbol": "AMZN",
+      "action": "AUTO_SELL",
+      "qty": 1,
+      "price": 221.54,
+      "reason": "Profit taking: 2.73% gain"
+    },
+    {
+      "time": "2025-08-06T11:58:01.010417",
+      "symbol": "AAPL",
+      "action": "AUTO_SELL",
+      "qty": 1,
+      "price": 214.54,
+      "reason": "Profit taking: 5.18% gain"
+    },
+    {
+      "time": "2025-08-06T11:59:01.465223",
+      "symbol": "NVDA",
+      "action": "AUTO_BUY",
+      "qty": 1,
+      "price": 179.09,
+      "reason": "VWAP: Price pulled back to VWAP ($178.19)"
+    },
+    {
+      "time": "2025-08-06T11:59:01.830700",
+      "symbol": "AMZN",
+      "action": "AUTO_SELL",
+      "qty": 1,
+      "price": 221.54,
+      "reason": "Profit taking: 2.73% gain"
+    },
+    {
+      "time": "2025-08-06T11:59:02.204414",
+      "symbol": "AAPL",
+      "action": "AUTO_SELL",
+      "qty": 1,
+      "price": 214.59,
+      "reason": "Profit taking: 5.21% gain"
+    },
+    {
+      "time": "2025-08-06T12:00:02.694201",
+      "symbol": "NVDA",
+      "action": "AUTO_BUY",
+      "qty": 1,
+      "price": 179.07,
+      "reason": "VWAP: Price pulled back to VWAP ($178.19)"
+    },
+    {
+      "time": "2025-08-06T12:00:03.129620",
+      "symbol": "AMZN",
+      "action": "AUTO_SELL",
+      "qty": 1,
+      "price": 221.52,
+      "reason": "Profit taking: 2.72% gain"
+    },
+    {
+      "time": "2025-08-06T12:00:03.471927",
+      "symbol": "AAPL",
+      "action": "AUTO_BUY",
+      "qty": 1,
+      "price": 214.62,
+      "reason": "VWAP: Price pulled back to VWAP ($212.30)"
+    },
+    {
+      "time": "2025-08-06T12:01:04.056990",
+      "symbol": "NVDA",
+      "action": "AUTO_BUY",
+      "qty": 1,
+      "price": 179.05,
+      "reason": "VWAP: Price pulled back to VWAP ($178.19)"
+    },
+    {
+      "time": "2025-08-06T12:01:04.456064",
+      "symbol": "AMZN",
+      "action": "AUTO_SELL",
+      "qty": 1,
+      "price": 221.46,
+      "reason": "Profit taking: 2.69% gain"
+    },
+    {
+      "time": "2025-08-06T12:01:04.805729",
+      "symbol": "AAPL",
+      "action": "AUTO_SELL",
+      "qty": 1,
+      "price": 214.61,
+      "reason": "Profit taking: 4.13% gain"
+    },
+    {
+      "time": "2025-08-06T12:02:05.319356",
+      "symbol": "NVDA",
+      "action": "AUTO_BUY",
+      "qty": 1,
+      "price": 178.99,
+      "reason": "VWAP: Price pulled back to VWAP ($178.19)"
+    },
+    {
+      "time": "2025-08-06T12:02:05.672674",
+      "symbol": "AMZN",
+      "action": "AUTO_SELL",
+      "qty": 1,
+      "price": 221.32,
+      "reason": "Profit taking: 2.62% gain"
+    },
+    {
+      "time": "2025-08-06T12:02:05.998872",
+      "symbol": "AAPL",
+      "action": "AUTO_BUY",
+      "qty": 1,
+      "price": 214.57,
+      "reason": "VWAP: Price pulled back to VWAP ($212.31)"
+    },
+    {
+      "time": "2025-08-06T12:03:06.504346",
+      "symbol": "NVDA",
+      "action": "AUTO_BUY",
+      "qty": 1,
+      "price": 179.04,
+      "reason": "VWAP: Price pulled back to VWAP ($178.19)"
+    },
+    {
+      "time": "2025-08-06T12:03:06.903070",
+      "symbol": "AMZN",
+      "action": "AUTO_BUY",
+      "qty": 1,
+      "price": 221.15,
+      "reason": "VWAP: Price pulled back to VWAP ($218.06)"
+    },
+    {
+      "time": "2025-08-06T12:03:07.271311",
+      "symbol": "AAPL",
+      "action": "AUTO_SELL",
+      "qty": 1,
+      "price": 214.58,
+      "reason": "Profit taking: 3.41% gain"
+    },
+    {
+      "time": "2025-08-06T12:04:07.720479",
+      "symbol": "NVDA",
+      "action": "AUTO_BUY",
+      "qty": 1,
+      "price": 179.13,
+      "reason": "VWAP: Price pulled back to VWAP ($178.19)"
+    },
+    {
+      "time": "2025-08-06T12:04:08.114348",
+      "symbol": "AMZN",
+      "action": "AUTO_SELL",
+      "qty": 1,
+      "price": 221.14,
+      "reason": "Profit taking: 2.17% gain"
+    },
+    {
+      "time": "2025-08-06T12:04:08.478955",
+      "symbol": "AAPL",
+      "action": "AUTO_BUY",
+      "qty": 1,
+      "price": 214.59,
+      "reason": "VWAP: Price pulled back to VWAP ($212.31)"
+    },
+    {
+      "time": "2025-08-06T12:05:08.982331",
+      "symbol": "NVDA",
+      "action": "AUTO_BUY",
+      "qty": 1,
+      "price": 179.09,
+      "reason": "VWAP: Price pulled back to VWAP ($178.19)"
+    },
+    {
+      "time": "2025-08-06T12:05:09.460958",
+      "symbol": "AMZN",
+      "action": "AUTO_BUY",
+      "qty": 1,
+      "price": 221.03,
+      "reason": "VWAP: Price pulled back to VWAP ($218.06)"
+    },
+    {
+      "time": "2025-08-06T12:05:10.117036",
+      "symbol": "AAPL",
+      "action": "AUTO_SELL",
+      "qty": 1,
+      "price": 214.63,
+      "reason": "Profit taking: 2.93% gain"
+    },
+    {
+      "time": "2025-08-06T12:06:10.526291",
+      "symbol": "NVDA",
+      "action": "AUTO_BUY",
+      "qty": 1,
+      "price": 179.1,
+      "reason": "VWAP: Price pulled back to VWAP ($178.19)"
+    },
+    {
+      "time": "2025-08-06T12:06:11.126716",
+      "symbol": "AMZN",
+      "action": "AUTO_BUY",
+      "qty": 1,
+      "price": 221.01,
+      "reason": "VWAP: Price pulled back to VWAP ($218.07)"
+    },
+    {
+      "time": "2025-08-06T12:06:11.524788",
+      "symbol": "AAPL",
+      "action": "AUTO_BUY",
+      "qty": 1,
+      "price": 214.58,
+      "reason": "VWAP: Price pulled back to VWAP ($212.32)"
+    },
+    {
+      "time": "2025-08-06T12:07:11.955141",
+      "symbol": "NVDA",
+      "action": "AUTO_BUY",
+      "qty": 1,
+      "price": 178.99,
+      "reason": "VWAP: Price pulled back to VWAP ($178.19)"
+    },
+    {
+      "time": "2025-08-06T12:07:12.360564",
+      "symbol": "AMZN",
+      "action": "AUTO_BUY",
+      "qty": 1,
+      "price": 220.86,
+      "reason": "VWAP: Price pulled back to VWAP ($218.07)"
+    },
+    {
+      "time": "2025-08-06T12:07:12.825664",
+      "symbol": "AAPL",
+      "action": "AUTO_SELL",
+      "qty": 1,
+      "price": 214.57,
+      "reason": "Profit taking: 2.53% gain"
+    },
+    {
+      "time": "2025-08-06T12:08:13.259749",
+      "symbol": "NVDA",
+      "action": "AUTO_BUY",
+      "qty": 1,
+      "price": 179.08,
+      "reason": "VWAP: Price pulled back to VWAP ($178.20)"
+    },
+    {
+      "time": "2025-08-06T12:08:13.610185",
+      "symbol": "AMZN",
+      "action": "AUTO_BUY",
+      "qty": 1,
+      "price": 220.89,
+      "reason": "VWAP: Price pulled back to VWAP ($218.08)"
+    },
+    {
+      "time": "2025-08-06T12:08:14.060234",
+      "symbol": "AAPL",
+      "action": "AUTO_BUY",
+      "qty": 1,
+      "price": 214.52,
+      "reason": "VWAP: Price pulled back to VWAP ($212.32)"
+    },
+    {
+      "time": "2025-08-06T12:09:14.487740",
+      "symbol": "NVDA",
+      "action": "AUTO_BUY",
+      "qty": 1,
+      "price": 179.04,
+      "reason": "VWAP: Price pulled back to VWAP ($178.20)"
+    },
+    {
+      "time": "2025-08-06T12:09:14.908822",
+      "symbol": "AMZN",
+      "action": "AUTO_BUY",
+      "qty": 1,
+      "price": 220.84,
+      "reason": "VWAP: Price pulled back to VWAP ($218.09)"
+    },
+    {
+      "time": "2025-08-06T12:09:15.312054",
+      "symbol": "AAPL",
+      "action": "AUTO_SELL",
+      "qty": 1,
+      "price": 214.42,
+      "reason": "Profit taking: 2.17% gain"
+    },
+    {
+      "time": "2025-08-06T12:10:15.713865",
+      "symbol": "NVDA",
+      "action": "AUTO_BUY",
+      "qty": 1,
+      "price": 179.15,
+      "reason": "VWAP: Price pulled back to VWAP ($178.20)"
+    },
+    {
+      "time": "2025-08-06T12:10:16.078204",
+      "symbol": "AMZN",
+      "action": "AUTO_BUY",
+      "qty": 1,
+      "price": 220.96,
+      "reason": "VWAP: Price pulled back to VWAP ($218.10)"
+    },
+    {
+      "time": "2025-08-06T12:10:16.444410",
+      "symbol": "AAPL",
+      "action": "AUTO_BUY",
+      "qty": 1,
+      "price": 214.4,
+      "reason": "VWAP: Price pulled back to VWAP ($212.33)"
+    },
+    {
+      "time": "2025-08-06T12:11:17.480165",
+      "symbol": "NVDA",
+      "action": "AUTO_BUY",
+      "qty": 1,
+      "price": 179.13,
+      "reason": "VWAP: Price pulled back to VWAP ($178.20)"
+    },
+    {
+      "time": "2025-08-06T12:11:17.843056",
+      "symbol": "AMZN",
+      "action": "AUTO_BUY",
+      "qty": 1,
+      "price": 221.02,
+      "reason": "VWAP: Price pulled back to VWAP ($218.11)"
+    },
+    {
+      "time": "2025-08-06T12:11:18.254151",
+      "symbol": "AAPL",
+      "action": "AUTO_BUY",
+      "qty": 1,
+      "price": 214.35,
+      "reason": "VWAP: Price pulled back to VWAP ($212.33)"
+    },
+    {
+      "time": "2025-08-06T12:12:18.660705",
+      "symbol": "NVDA",
+      "action": "AUTO_BUY",
+      "qty": 1,
+      "price": 179.24,
+      "reason": "VWAP: Price pulled back to VWAP ($178.20)"
+    },
+    {
+      "time": "2025-08-06T12:12:19.011204",
+      "symbol": "AMZN",
+      "action": "AUTO_BUY",
+      "qty": 1,
+      "price": 221.04,
+      "reason": "VWAP: Price pulled back to VWAP ($218.10)"
+    },
+    {
+      "time": "2025-08-06T12:12:19.433081",
+      "symbol": "AAPL",
+      "action": "AUTO_BUY",
+      "qty": 1,
+      "price": 214.48,
+      "reason": "VWAP: Price pulled back to VWAP ($212.34)"
+    },
+    {
+      "time": "2025-08-06T12:13:19.874237",
+      "symbol": "NVDA",
+      "action": "AUTO_BUY",
+      "qty": 1,
+      "price": 179.27,
+      "reason": "VWAP: Price pulled back to VWAP ($178.20)"
+    },
+    {
+      "time": "2025-08-06T12:13:20.293839",
+      "symbol": "AMZN",
+      "action": "AUTO_BUY",
+      "qty": 1,
+      "price": 221.05,
+      "reason": "VWAP: Price pulled back to VWAP ($218.11)"
+    },
+    {
+      "time": "2025-08-06T12:13:20.649831",
+      "symbol": "AAPL",
+      "action": "AUTO_BUY",
+      "qty": 1,
+      "price": 214.49,
+      "reason": "VWAP: Price pulled back to VWAP ($212.34)"
+    },
+    {
+      "time": "2025-08-06T12:14:21.186675",
+      "symbol": "NVDA",
+      "action": "AUTO_BUY",
+      "qty": 1,
+      "price": 179.26,
+      "reason": "VWAP: Price pulled back to VWAP ($178.20)"
+    },
+    {
+      "time": "2025-08-06T12:14:21.528742",
+      "symbol": "AMZN",
+      "action": "AUTO_BUY",
+      "qty": 1,
+      "price": 221.02,
+      "reason": "VWAP: Price pulled back to VWAP ($218.13)"
+    },
+    {
+      "time": "2025-08-06T12:14:21.887511",
+      "symbol": "AAPL",
+      "action": "AUTO_BUY",
+      "qty": 1,
+      "price": 214.46,
+      "reason": "VWAP: Price pulled back to VWAP ($212.34)"
+    },
+    {
+      "time": "2025-08-06T12:15:22.416265",
+      "symbol": "NVDA",
+      "action": "AUTO_BUY",
+      "qty": 1,
+      "price": 179.16,
+      "reason": "VWAP: Price pulled back to VWAP ($178.21)"
+    },
+    {
+      "time": "2025-08-06T12:15:22.841542",
+      "symbol": "AMZN",
+      "action": "AUTO_BUY",
+      "qty": 1,
+      "price": 221.17,
+      "reason": "VWAP: Price pulled back to VWAP ($218.13)"
+    },
+    {
+      "time": "2025-08-06T12:15:23.215333",
+      "symbol": "AAPL",
+      "action": "AUTO_BUY",
+      "qty": 1,
+      "price": 214.4,
+      "reason": "VWAP: Price pulled back to VWAP ($212.34)"
+    },
+    {
+      "time": "2025-08-06T12:16:23.564263",
+      "symbol": "NVDA",
+      "action": "AUTO_BUY",
+      "qty": 1,
+      "price": 179.12,
+      "reason": "VWAP: Price pulled back to VWAP ($178.21)"
+    },
+    {
+      "time": "2025-08-06T12:16:23.913069",
+      "symbol": "AMZN",
+      "action": "AUTO_BUY",
+      "qty": 1,
+      "price": 221.16,
+      "reason": "VWAP: Price pulled back to VWAP ($218.13)"
+    },
+    {
+      "time": "2025-08-06T12:16:24.331494",
+      "symbol": "AAPL",
+      "action": "AUTO_BUY",
+      "qty": 1,
+      "price": 214.4,
+      "reason": "VWAP: Price pulled back to VWAP ($212.34)"
+    },
+    {
+      "time": "2025-08-06T12:17:24.810361",
+      "symbol": "NVDA",
+      "action": "AUTO_BUY",
+      "qty": 1,
+      "price": 179.19,
+      "reason": "VWAP: Price pulled back to VWAP ($178.21)"
+    },
+    {
+      "time": "2025-08-06T12:17:25.178135",
+      "symbol": "AMZN",
+      "action": "AUTO_BUY",
+      "qty": 1,
+      "price": 221.06,
+      "reason": "VWAP: Price pulled back to VWAP ($218.14)"
+    },
+    {
+      "time": "2025-08-06T12:17:25.559338",
+      "symbol": "AAPL",
+      "action": "AUTO_BUY",
+      "qty": 1,
+      "price": 214.42,
+      "reason": "VWAP: Price pulled back to VWAP ($212.35)"
+    },
+    {
+      "time": "2025-08-06T12:18:26.080291",
+      "symbol": "NVDA",
+      "action": "AUTO_BUY",
+      "qty": 1,
+      "price": 179.28,
+      "reason": "VWAP: Price pulled back to VWAP ($178.23)"
+    },
+    {
+      "time": "2025-08-06T12:18:26.426261",
+      "symbol": "AMZN",
+      "action": "AUTO_BUY",
+      "qty": 1,
+      "price": 221.03,
+      "reason": "VWAP: Price pulled back to VWAP ($218.20)"
+    },
+    {
+      "time": "2025-08-06T12:18:26.804852",
+      "symbol": "AAPL",
+      "action": "AUTO_BUY",
+      "qty": 1,
+      "price": 214.05,
+      "reason": "VWAP: Price pulled back to VWAP ($212.39)"
+    },
+    {
+      "time": "2025-08-06T12:19:27.386600",
+      "symbol": "NVDA",
+      "action": "AUTO_BUY",
+      "qty": 1,
+      "price": 179.38,
+      "reason": "VWAP: Price pulled back to VWAP ($178.24)"
     }
   ]
 }

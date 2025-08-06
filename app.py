@@ -523,10 +523,15 @@ def start_bot_thread():
     """Start the day trading bot thread"""
     global day_trading_thread, bot_running
     if not bot_running:
+        print("🤖 Creating new bot thread...")
         day_trading_thread = threading.Thread(target=run_day_trading_bot, daemon=True)
         day_trading_thread.start()
         bot_running = True
         print("🤖 Day trading bot thread started successfully")
+        print(f"🤖 Thread ID: {day_trading_thread.ident}")
+        print(f"🤖 Thread alive: {day_trading_thread.is_alive()}")
+    else:
+        print("🤖 Bot thread already running")
 
 def stop_bot_thread():
     """Stop the day trading bot thread"""
@@ -548,8 +553,16 @@ def check_bot_thread_status():
 
 # Start day trading bot thread if enabled
 if AUTO_TRADE_ENABLED:
-    print("🤖 Initializing day trading bot...")
+    print("🤖 ========================================")
+    print("🤖 INITIALIZING DAY TRADING BOT")
+    print("🤖 ========================================")
+    print(f"🤖 AUTO_TRADE_ENABLED: {AUTO_TRADE_ENABLED}")
+    print(f"🤖 CHECK_INTERVAL: {CHECK_INTERVAL} seconds")
+    print(f"🤖 DAY_TRADE_QUANTITY: {DAY_TRADE_QUANTITY}")
     start_bot_thread()
+    print("🤖 ========================================")
+else:
+    print("🤖 Day trading bot disabled - AUTO_TRADE_ENABLED = False")
 
 
 def get_stock_data(symbol, period='1d'):
