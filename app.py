@@ -33,9 +33,15 @@ def load_portfolio():
         try:
             with open(PORTFOLIO_FILE, 'r') as f:
                 data = json.load(f)
+                # Ensure all current stocks are in holdings with default 0
+                holdings = data.get('holdings', {})
+                for stock_key in STOCKS:
+                    if stock_key not in holdings:
+                        holdings[stock_key] = 0
+                
                 return {
                     'cash': data.get('cash', 10000.0),
-                    'holdings': data.get('holdings', {s: 0 for s in STOCKS}),
+                    'holdings': holdings,
                     'history': data.get('history', [])
                 }
         except Exception as e:
@@ -710,10 +716,13 @@ def api_test_signals():
 @app.route('/api/portfolio')
 def api_portfolio():
     prices = get_latest_prices()
-    holdings_value = sum(
-        portfolio['holdings'][s] * prices[s]['price']
-        for s in STOCKS if prices[s]['price'] is not None
-    )
+    holdings_value = 0
+    
+    # Calculate holdings value safely
+    for s in STOCKS:
+        if s in portfolio['holdings'] and s in prices and prices[s]['price'] is not None:
+            holdings_value += portfolio['holdings'][s] * prices[s]['price']
+    
     return jsonify({
         'cash': round(portfolio['cash'], 2),
         'holdings_value': round(holdings_value, 2),
